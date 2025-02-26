@@ -3,7 +3,7 @@
 
 ## Usage
 
-Colorclasses library makes use of Enums for mapping of ANSI codes to color names.
+Colorclasses library makes use of Enums for mapping of ANSI codes to color names
 
 ```python
 # Importing the classes provided by the library:
