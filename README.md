@@ -1,12 +1,19 @@
 # Colorclasses v1.1
 #### Library providing classes for easier text coloring and formatting in python using ANSI escape codes
 
+## How it works
+The classes are making use of Enums to map ANSI codes to human-readable names.</br>
+The \_\_str\_\_ method of the Enums was redefined to print the ANSI code without calling `.value`.
+
+
 ## Usage
 
-Colorclasses library makes use of Enums for mapping of ANSI codes to human-readable names.</br>
+> [!IMPORTANT]
+> If $TERM environment variable is set to "dumb" or isn't set at all, ANSI codes won't get returned,</br>
+> Same if the code is not streamed into a TTY, eg. it's being piped into another command or a file.</br>
+> This allows the function to not litter the output with ANSI codes when color is not supported.<\br>
+
 </br>
-If $TERM environment variable is set to "dumb" or isn't set at all, color codes won't get returned,</br>
-ame if the code is not streamed into a TTY, eg. it's being piped into another command or a file.</br>
 
 ```python
 # Importing the classes provided by the library:
