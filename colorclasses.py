@@ -2,7 +2,7 @@
 # Header
 
 __package_name__ = "colorclasses"
-__version__ = "v1.0"
+__version__ = "v1.1"
 __license__ = "Unlicense"
 
 __author__ = "mkow04"
@@ -14,12 +14,32 @@ __all__ = ["Color", "Background", "Effect"]
 # Imports
 
 from enum import Enum
+import sys
+import os
+
+
+################################
+# Checks
+
+def supports_color() -> bool:
+    if (not sys.stdout.isatty()) or os.getenv("TERM", "dumb") == "dumb":
+        return False
+    else:
+        return True
 
 
 ################################
 # Classes
 
-class Color(Enum):
+class BaseColorEnum(Enum):
+    def __str__(self):
+        if supports_color():
+            return str(self.value)
+        else:
+            return ""
+
+
+class Color(BaseColorEnum):
     BLACK = "\033[30m"
     DARK_RED = "\033[31m"
     DARK_GREEN = "\033[32m"
@@ -37,11 +57,8 @@ class Color(Enum):
     CYAN = "\033[96m"
     WHITE = "\033[97m"
 
-    def __str__(self):
-        return str(self.value)
 
-
-class Background(Enum):
+class Background(BaseColorEnum):
     BLACK = "\033[40m"
     DARK_RED = "\033[41m"
     DARK_GREEN = "\033[42m"
@@ -59,11 +76,8 @@ class Background(Enum):
     CYAN = "\033[106m"
     WHITE = "\033[107m"
 
-    def __str__(self):
-        return str(self.value)
 
-
-class Effect(Enum):
+class Effect(BaseColorEnum):
     RESET = "\033[0m"
     BOLD = "\033[1m"
     DARK = "\033[2m"
@@ -74,9 +88,6 @@ class Effect(Enum):
     REVERSE = "\033[7m"
     OBFUSCATE = "\033[8m"
     STRIKETHROUGH = "\033[9m"
-
-    def __str__(self):
-        return str(self.value)
 
 
 ################################
@@ -105,7 +116,7 @@ def main():
             display_name = member.name.replace("_", " ").capitalize()
             callable_name = f"{item.__name__}.{member.name}"
             max_lenght = len(item.__name__)+15
-            print(f"{' '*9}{Effect.BOLD}{callable_name:<{max_lenght}}-> {Effect.RESET}{member.value}{display_name}{Effect.RESET}")
+            print(f"{' '*9}{Effect.BOLD}{callable_name:<{max_lenght}}-> {Effect.RESET}{member}{display_name}{Effect.RESET}")
 
     print("")
 
